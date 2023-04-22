@@ -6,3 +6,6 @@
   cursor: pointer;
   background-color: lightgrey;
 }
+.hide {
+  display: none;
+}

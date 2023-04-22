@@ -1,6 +1,7 @@
 const apiKey = 'b9e5d754e2eb97d65075459b2875fbf5';
 const forecastDiv = document.getElementById('forecast');
-var searchHistoryEl = document.getElementById("search-history")
+var searchHistoryEl = document.getElementById('search-history')
+var forecastTitle = document.getElementById('forecast-title');
 
 
 function clearForecast() {
@@ -9,6 +10,7 @@ function clearForecast() {
 
 function handleFormSubmit(event) {
   event.preventDefault();
+  forecastTitle.removeAttribute("class");
   let city = document.getElementById('city').value;
   city = city.toLowerCase();
   city = city.charAt(0).toUpperCase() + city.slice(1);
@@ -100,6 +102,7 @@ function displaySearchHistory() {
 
   searchHistory.forEach(city => {
     const button = document.createElement('button');
+    button.classList.add("btn", "btn-primary", "btn-lg", "mb-3", "btn-secondary");
     button.textContent = city;
     button.addEventListener('click', () => {
       document.getElementById('city').value = city;
