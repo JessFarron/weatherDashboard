@@ -18,7 +18,7 @@ function handleFormSubmit(event) {
     .then(response => response.json())
     .then(data => {
       const forecastList = data.list;
-      for (let i = 0; i < forecastList.length; i += 8) {
+      for (let i = 2; i < forecastList.length; i += 8) {
         const forecast = forecastList[i];
         const date = new Date(forecast.dt_txt);
         const temp = forecast.main.temp;
