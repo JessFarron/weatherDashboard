@@ -1,3 +1,47 @@
-nav {
-    font-size: 36px;
+.h1 {
+  font-size: 36px;
 }
+
+.searched-city:hover {
+  cursor: pointer;
+  background-color: lightgrey;
+}
+
+/* Searched history section NOT WORKING */
+var loadCities = function() {
+  var citiesLoaded = localStorage.getItem("cities")
+  if(!citiesLoaded) {
+      return false;
+  }
+  
+  citiesLoaded = JSON.parse(citiesLoaded);
+  
+  for (var i=0; i < citiesLoaded.length; i++) {
+      displaySearchedCities(citiesLoaded[i])
+      cities.push(citiesLoaded[i])
+  }
+}
+
+var saveCities = function() {
+  localStorage.setItem("cities", JSON.stringify(cities));
+}
+
+var displaySearchedCities = function(city) {
+  var cityCardEl = document.createElement("div");
+  cityCardEl.setAttribute("class", "card");
+  var cityCardNameEl = document.createElement("div");
+  cityCardNameEl.setAttribute("class", "card-body searched-city");
+  cityCardNameEl.textContent = city;
+  
+  cityCardEl.appendChild(cityCardNameEl)
+
+  cityCardEl.addEventListener("click", function () {
+      getCityData(city)
+  });
+
+  searchHistoryEl.appendChild(cityCardEl)
+
+}
+
+//load previously searched cities on page load
+loadCities()
