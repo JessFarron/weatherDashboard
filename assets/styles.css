@@ -6,6 +6,19 @@
   cursor: pointer;
   background-color: lightgrey;
 }
+h2 {
+  font-size: 40px;
+}
+
 .hide {
   display: none;
+}
+
+#forecast {
+  display: flex;
+
+}    
+
+h3 {
+  font-size: 20px;
 }

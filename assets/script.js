@@ -10,7 +10,6 @@ function clearForecast() {
 
 function handleFormSubmit(event) {
   event.preventDefault();
-  forecastTitle.removeAttribute("class");
   let city = document.getElementById('city').value;
   city = city.toLowerCase();
   city = city.charAt(0).toUpperCase() + city.slice(1);
@@ -28,15 +27,17 @@ function handleFormSubmit(event) {
         const windSpeed = forecast.wind.speed;
         const uvIndex = forecast.uvi;
         const forecastElement = document.createElement('div');
+        forecastElement.classList.add("ms-2" , "bg-warning" , "bg-gradient");
         const iconCode = forecast.weather[0].icon;
         const iconUrl = getWeatherIconCode(iconCode); 
+        
         forecastElement.innerHTML = `
-        <h3>${date.toDateString()}</h3>
-        <img src="${iconUrl}" alt="${forecast.weather[0].description}">
-        <p>Temperature: ${temp} &#8451;</p>
-        <p>Humidity: ${humidity}%</p>
-        <p>Wind Speed: ${windSpeed} m/s</p>
-        <p>UV Index: ${uvIndex}</p>
+        <h3 class="ms-1">${date.toDateString()}</h3>
+        <img class="ms-5"src="${iconUrl}" alt="${forecast.weather[0].description}">
+        <p class="ms-3">Temperature: ${temp} &#8451;</p>
+        <p class="ms-3">Humidity: ${humidity}%</p>
+        <p class="ms-3">Wind Speed: ${windSpeed} m/s</p>
+        <p class="ms-3">UV Index: ${uvIndex}</p>
       `;
         forecastDiv.appendChild(forecastElement);
       }
@@ -53,6 +54,7 @@ function handleFormSubmit(event) {
     .catch(error => {
       console.log(error);
       forecastDiv.innerHTML = '<p>Sorry, city not found</p>';
+
     });
     getCurrentWeather(city); 
 }
@@ -76,20 +78,25 @@ function handleFormSubmit(event) {
         const iconCode = data.weather[0].icon; 
         const iconUrl = getWeatherIconCode(iconCode);
         const currentWeatherElement = document.createElement('div');
+        currentWeatherElement.classList.add("ms-5", "mt-5");
         currentWeatherElement.innerHTML = `
-          <h3>Current Weather in ${city}</h3>
+          <h2>Current Weather in ${city}</h2>
           <p>${date.toDateString()}</p>
           <img src="${iconUrl}" alt="${data.weather[0].description}">
           <p>Temperature: ${temp} &#8451;</p>
           <p>Humidity: ${humidity}%</p>
           <p>Wind Speed: ${windSpeed} m/s</p>
           <p>UV Index: ${uvIndex}</p>
-        `;
+          <h2>5 day Forecast in ${city}</h2>  
+        `; //This line up can be improve or correct since this elemente should be in the next row
         const currentContainer = document.getElementById('current-container');
         currentContainer.innerHTML = '';
         currentContainer.appendChild(currentWeatherElement);
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error);
+        currentContainer.innerHTML = '<h3>Sorry, city not found</h3>';
+      });
   }
 
 
