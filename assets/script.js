@@ -26,13 +26,16 @@ function handleFormSubmit(event) {
         const windSpeed = forecast.wind.speed;
         const uvIndex = forecast.uvi;
         const forecastElement = document.createElement('div');
+        const iconCode = forecast.weather[0].icon;
+        const iconUrl = getWeatherIconCode(iconCode); 
         forecastElement.innerHTML = `
-          <h3>${date.toDateString()}</h3>
-          <p>Temperature: ${temp} &#8451;</p>
-          <p>Humidity: ${humidity}%</p>
-          <p>Wind Speed: ${windSpeed} m/s</p>
-          <p>UV Index: ${uvIndex}</p>
-        `;
+        <h3>${date.toDateString()}</h3>
+        <img src="${iconUrl}" alt="${forecast.weather[0].description}">
+        <p>Temperature: ${temp} &#8451;</p>
+        <p>Humidity: ${humidity}%</p>
+        <p>Wind Speed: ${windSpeed} m/s</p>
+        <p>UV Index: ${uvIndex}</p>
+      `;
         forecastDiv.appendChild(forecastElement);
       }
 
@@ -49,14 +52,15 @@ function handleFormSubmit(event) {
       console.log(error);
       forecastDiv.innerHTML = '<p>Sorry, city not found</p>';
     });
-
-    getCurrentWeather(city);
-  
+    getCurrentWeather(city); 
 }
 
   /* Current Data */
   function getCurrentWeather(city) {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+
+
   
     return fetch(url)
       .then(response => response.json())
@@ -66,10 +70,14 @@ function handleFormSubmit(event) {
         const humidity = data.main.humidity;
         const windSpeed = data.wind.speed;
         const uvIndex = data.uvi;
+          /* Adding icons to current data */
+        const iconCode = data.weather[0].icon; 
+        const iconUrl = getWeatherIconCode(iconCode);
         const currentWeatherElement = document.createElement('div');
         currentWeatherElement.innerHTML = `
           <h3>Current Weather in ${city}</h3>
           <p>${date.toDateString()}</p>
+          <img src="${iconUrl}" alt="${data.weather[0].description}">
           <p>Temperature: ${temp} &#8451;</p>
           <p>Humidity: ${humidity}%</p>
           <p>Wind Speed: ${windSpeed} m/s</p>
@@ -100,6 +108,18 @@ function displaySearchHistory() {
     searchHistoryDiv.appendChild(button);
   });
 }
+
+
+
+function getWeatherIconCode(icon) {
+  return `https://openweathermap.org/img/wn/${icon}.png`;
+}
+
+
+
+
+
+
 const form = document.querySelector('form');
 form.addEventListener('submit', handleFormSubmit);
 
